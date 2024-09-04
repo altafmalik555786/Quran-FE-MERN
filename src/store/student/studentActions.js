@@ -1,6 +1,6 @@
 // src/features/student/studentActions.js
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import baseUrl from '../../API/axios'; // Assuming this is where your axios instance is
+import baseUrl from '../../API/axios'; 
 
 export const registerStudent = createAsyncThunk(
   'student/registerStudent',
