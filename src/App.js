@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from "react";
-import { Route, Navigate, Routes } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import { initialState, reducer } from "./reducer/UseReducer";
 import Home from "./pages/Home";
@@ -18,7 +18,6 @@ import FaQ from "./pages/FaQ";
 import WhyUS from "./pages/WhyUs";
 import UseApp from "./pages/UseApp";
 import Signup from "./pages/Signup";
-import Error from "./pages/Error";
 import StudentDashboard from "./components/dashboards/student-dashboard/StudentDashboard";
 import TutorDashboard from "./components/dashboards/tutor-dashboard/TutorDashboard";
 import AdminDashboard from "./components/dashboards/admin-dashboard/AdminDashboard";
@@ -26,10 +25,9 @@ import EditProfile from "./components/dashboards/student-dashboard/EditProfile";
 import ParentalWatch from "./components/dashboards/student-dashboard/ParentalWatch";
 import StudentArchives from "./components/dashboards/student-dashboard/StudentArchives";
 import QuranRevision from "./components/dashboards/student-dashboard/QuranRevision";
-import HireQuranTutors from "./components/dashboards/student-dashboard/HireQuranTutors";
+import Conversations from "./components/dashboards/student-dashboard/Conversations";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Conversations from "./components/dashboards/student-dashboard/Conversations";
 
 // 1 context api
 export const UserContext = createContext();
@@ -48,81 +46,77 @@ const App = () => {
       <UserContext.Provider value={{ state, dispatch }}>
         <Routes>
           {/* Public routes */}
-          <Route path="/" exact component={Home} />
-          <Route path="/findtutors" component={FindTutor} />
-          <Route path="/priceplan" component={PricePlan} />
-          <Route path="/howitworks" component={HowItWorks} />
-          <Route path="/quran" component={Quran} />
-          <Route path="/qaida" component={Qaida} />
-          <Route path="/aboutus" component={Aboutus} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/courses" component={Courses} />
-          <Route path="/privacypolicy" component={PrivacyPolicy} />
-          <Route path="/tos" component={ToS} />
-          <Route path="/testimonials" component={Testimonials} />
-          <Route path="/whyus" component={WhyUS} />
-          <Route path="/faqs" component={FaQ} />
-          <Route path="/useapp" component={UseApp} />
-          <Route path="/signup" component={Signup} />
+          <Route path="/" element={<Home />} />
+          <Route path="/findtutors" element={<FindTutor />} />
+          <Route path="/priceplan" element={<PricePlan />} />
+          <Route path="/howitworks" element={<HowItWorks />} />
+          <Route path="/quran" element={<Quran />} />
+          <Route path="/qaida" element={<Qaida />} />
+          <Route path="/aboutus" element={<Aboutus />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/tos" element={<ToS />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/whyus" element={<WhyUS />} />
+          <Route path="/faqs" element={<FaQ />} />
+          <Route path="/useapp" element={<UseApp />} />
+          <Route path="/signup" element={<Signup />} />
 
           {/* Private routes for authenticated users only */}
-          <PrivateRoute
+          <Route
             path="/students/dashboard"
-            component={StudentDashboard}
-            roles={["student"]}
+            element={<PrivateRoute element={<StudentDashboard />} roles={["student"]} />}
           />
-          <PrivateRoute
+          <Route
             path="/students/edit-profile"
-            component={EditProfile}
-            roles={["student"]}
+            element={<PrivateRoute element={<EditProfile />} roles={["student"]} />}
           />
-          <PrivateRoute
+          <Route
             path="/students/parental_watch"
-            component={ParentalWatch}
-            roles={["student"]}
+            element={<PrivateRoute element={<ParentalWatch />} roles={["student"]} />}
           />
-          <PrivateRoute
+          <Route
             path="/students/on_demand"
-            component={StudentArchives}
-            roles={["student"]}
+            element={<PrivateRoute element={<StudentArchives />} roles={["student"]} />}
           />
-          <PrivateRoute
+          <Route
             path="/students/quran_revision"
-            component={QuranRevision}
-            roles={["student"]}
+            element={<PrivateRoute element={<QuranRevision />} roles={["student"]} />}
           />
-           <PrivateRoute
+          <Route
             path="/conversations"
-            component={Conversations}
-            roles={["student"]}
+            element={<PrivateRoute element={<Conversations />} roles={["student"]} />}
           />
-          <PrivateRoute
+          <Route
             path="/tutor-dashboard"
-            component={TutorDashboard}
-            roles={["teacher"]}
+            element={<PrivateRoute element={<TutorDashboard />} roles={["teacher"]} />}
           />
-          <PrivateRoute
+          <Route
             path="/admin-dashboard"
-            component={AdminDashboard}
-            roles={["admin"]}
+            element={<PrivateRoute element={<AdminDashboard />} roles={["admin"]} />}
           />
 
           {/* Fallback for any other routes */}
-          <PrivateRoute
+          <Route
             path="*"
-            render={() => (
-              <Navigate
-                to={
-                  isAuthenticated()
-                    ? getUserRole() === "student"
-                      ? "/students/dashboard"
-                      : getUserRole() === "teacher"
-                      ? "/tutor-dashboard"
-                      : "/admin-dashboard"
-                    : "/signup"
+            element={
+              <PrivateRoute
+                element={
+                  <Navigate
+                    to={
+                      isAuthenticated()
+                        ? getUserRole() === "student"
+                          ? "/students/dashboard"
+                          : getUserRole() === "teacher"
+                          ? "/tutor-dashboard"
+                          : "/admin-dashboard"
+                        : "/signup"
+                    }
+                  />
                 }
               />
-            )}
+            }
           />
         </Routes>
       </UserContext.Provider>
