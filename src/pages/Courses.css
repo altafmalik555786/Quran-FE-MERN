@@ -1,0 +1,132 @@
+.course-section-1{
+  margin-top: 50px;
+}
+
+.course-section-1 .col-3{
+  width: 100%;
+}
+
+.course-section-1 .row{
+  justify-content: space-between;
+}
+.course-section-1 .title {
+  color: var(--primary-color);
+}
+.course-section-1 .heading {
+  color: var(--fancy-color);
+}
+
+.course-section-1 .description {
+  color: var(--text-color);
+  font-size: 15px;
+}
+.course-section-1 img {
+  width: 100%;
+  height: 300px;
+}
+.course-image-p {
+  font-size: 2.3rem;
+  color: var(--fancy-color);
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: var(--bgcolor);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  margin: 2rem auto;
+}
+.course-section-2 .container{
+  margin-top: 10rem;
+  margin-bottom: 10rem;
+
+}
+.course-section-2 .sub-heading {
+  font-size: 2rem;
+    margin-bottom: 5rem;
+    color: var(--fancy-color);
+}
+.course-section-2 .CardsMainDiv{
+  margin-top: 5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+}
+.course-section-2 .card{
+  width: 350px;
+  border-radius: 10px;
+  height: auto;
+  padding: 10px;
+  margin: 20px;
+  transition: transform .2s;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.course-section-2 .card h5{
+  padding-bottom: 10px;
+  text-align: left;
+}
+.course-section-2 .card p{
+  font-size: 15px;
+}
+.course-section-2 .card td{
+  padding: 10px;
+}
+.course-section-2 .CardsMainDiv img{
+  width: 90%;
+  height: auto;
+  border-radius: 3%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+.course-section-2 .course-btn1{
+  background-color: var(--primary-color);
+  padding: 8px;
+  width: 40%;
+  border: 1px solid;
+  border-radius: 20px;
+  color: white;
+}
+.course-section-2 .course-btn1:hover{
+  background-color: transparent;
+  border: 1px solid;
+  color: var(--primary-color);
+}
+.course-section-2 .course-btn2{
+  background-color: var(--primary-color);
+  padding: 8px;
+  width: 40%;
+  border: 1px solid;
+  border-radius: 20px;
+  color: white;
+}
+.course-section-2 .course-btn2:hover{
+  background-color: transparent;
+  border: 1px solid;
+  color: var(--primary-color);
+}
+
+@media screen and (max-width: 600px){
+  .card{
+      width: 100%;
+      border-radius: 10px;
+      height: 100%;
+      padding: 10px;
+      margin: 20px;
+      line-height: 5rem;
+  }
+  .card td{
+      background-color: white;
+      padding: 3px;
+  }
+}
+
+
+
+@media (max-width: 740px){
+.CardsMainDiv{
+  margin-top: 10rem;
+
+}
+}

@@ -1,0 +1,126 @@
+.footer-section{
+  margin-top: 100px;
+}
+
+.hr-footer-top{
+  color: black;
+  margin-bottom: 5rem;
+}
+footer {
+  padding-top: 20px;
+  margin-top: 4rem;
+  background-color: #eef1ee;
+  color: #fff;
+  margin: 20px;
+  border-radius: 20px;
+}
+
+.footer-logo{
+  width: 100%;
+  height: 100px;
+}
+.footer-para{
+  font-size: 13px;
+  color:  rgb(105, 102, 102);
+}
+
+ol, ul{
+  padding-left: 0%;
+}
+
+.hr-footer-bottom{
+  color: black;
+  margin-top: 5rem;
+}
+
+.footer-copyright{
+  display: flex;
+}
+
+.row2 {
+  margin-top: 2rem;
+  align-items: left;
+  text-align: left;
+  justify-content: left;
+  display: grid;
+}
+.footer-logo {
+  height: 10rem;
+  width: 25rem;
+  text-align: left;
+  float: left;
+  justify-content: left;
+  margin: -1rem;
+}
+.playstore-logo {
+  height: 10rem;
+  width: 25rem;
+  text-align: left;
+  float: left;
+  justify-content: left;
+  margin: -1rem;
+}
+
+
+footer li {
+  list-style: none;
+  font-size: 1.5rem;
+  font-weight: lighter;
+  color: #fff;
+  cursor: pointer;
+  margin: 1rem 0;
+}
+
+footer li:hover {
+  color: var(--primary-color);
+}
+
+footer .fontawesome-style {
+  font-size: 3.0rem;
+  color: var(--primary-color);
+  background-color: transparent;
+  width: 0rem;
+  height: 0rem;
+  margin: 2rem 0;
+  cursor: pointer;
+}
+
+footer .fontawesome-style:hover {
+  /* transition: all 1s; */
+  /* animation: rotatefont 1s linear infinite alternate-reverse; */
+  color: rgba(0,0,0,.9);
+}
+
+/* @keyframes rotatefont {
+  0% {
+    transform: scale(0.6);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+} */
+
+footer .main-hero-para {
+  margin: 0;
+}
+.col-lg-10{
+width: 90%;
+}
+
+.copyright-row{
+  justify-content: space-between;
+}
+.copyright-text{
+  color: var(--text-color);
+  font-size: 12px
+}
+.copyright-made{
+  color: var(--text-color);
+  font-size: 12px;
+  
+}
+@media (max-width: 992px){
+  .copyright-row{
+flex-direction: column;  }
+}
+

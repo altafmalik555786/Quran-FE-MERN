@@ -1,0 +1,77 @@
+
+
+.course-container .sub-heading {
+  font-size: 2rem;
+  margin-bottom: 5rem;
+  color: var(--fancy-color);
+}
+
+@media (min-width: 992px){
+.course-container .col-lg-4 {
+  flex: 0 0 auto;
+  width: 30% !important;
+  margin: 2.5rem auto;
+}
+}
+
+.courses-container-subdiv{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+  margin: 20px 15px;
+  background-color: #fff;
+  padding: 25px;
+}
+
+.courses-container-subdiv:hover {
+  background-color: var(--bgcolor);
+  cursor: pointer;
+}
+
+.courses-container-subdiv:hover > .fontawesome-style {
+  background-color: #fff;
+}
+
+.courses-container-subdiv .main-hero-para {
+  width: 100%;
+}
+.courses-container-subdiv .sub-heading {
+color: var(--fancy-color);}
+
+.courses-container-subdiv .fontawesome-style {
+  /* text-align: left; */
+  margin: 2rem 0;
+  color: var(--fancy-color);
+}
+.course-container .col-3{
+  width: 100%;
+}
+
+.courses-button .btn-howitworks{
+  color: var(--primary-color);
+  background-color: transparent;
+  font-size: 1.6rem;
+}
+
+.courses-button .btn-howitworks-border{
+  border-radius: 0rem;
+  border: 0.1rem solid var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(102, 20, 7, 0.5);
+}
+
+.courses-button .btn-howitworks:hover {
+  color: #fff;
+  border: 0.1rem solid var(--primary-color);
+  background-color: var(--primary-color);
+}
+
+@media (max-width: 740px){
+.courses-rightside {
+    margin-top: 10rem;
+}}
+
+@media (max-width: 740px){
+  .courses-container-subdiv{    
+    margin: 20px 0px;
+    padding: 25px 15px;
+  }
+}

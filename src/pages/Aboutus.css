@@ -1,0 +1,205 @@
+
+
+.aboutus-section-1 .title {
+  color: var(--primary-color);
+}
+.aboutus-section-1 .heading {
+  color: var(--fancy-color);
+}
+
+.aboutus-section-1 .description {
+  color: var(--text-color);
+  font-size: 15px;
+}
+.aboutus-section-1 .two-btn {
+  margin-top: 400px;
+}
+
+.aboutus-section-1 .two-btn button {
+  position: relative;
+  justify-content: space-between;
+  margin-inline-start: 1rem;
+  border-radius: 5px;
+}
+.aboutus-section-1 .btn-style2{
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+  font-size: 1.6rem;
+}
+.aboutus-section-1 .btn-style2:hover {
+  border: 0.1rem solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(183, 171, 255, 0.5);
+}
+.aboutus-section-1 .rightside-img {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+
+.aboutus-section-1 img {
+  width: 100%;
+  height: 400px;
+}
+
+
+.aboutus-section-1 .button-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+}
+.aboutus-section-1 .button-row:hover {
+  background-color: transparent;
+}
+
+.aboutus-section-1 .button-row button {
+  position: relative;
+  justify-content: space-between;
+  margin-inline-start: 1rem;
+  border-radius: 5px;
+}
+.aboutus-section-1 .button-row .btn-style1{
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+  font-size: 1.4rem;
+}
+.aboutus-section-1 .button-row .btn-style1:hover {
+  border: 0.1rem solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(183, 171, 255, 0.5);
+}
+.aboutus-section-1 .button-row .btn-style2{
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  border: 0.1rem solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: var(--bgcolor);
+  text-transform: capitalize;
+  font-size: 1.4rem;
+}
+
+
+.aboutus-section-1 .button-row .btn-style2:hover {
+  background-color: transparent;
+  color: white;
+  background-color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(183, 171, 255, 0.5);
+}
+
+
+
+/* section 2 */
+.aboutus-section-2 {
+  margin-top: 10rem;
+  background-color: white;
+}
+
+.aboutus-section-2 .title {
+  color: var(--primary-color);
+}
+.aboutus-section-2 .heading {
+  color: var(--fancy-color);
+}
+
+.aboutus-section-2 .description {
+  color: var(--text-color);
+  font-size: 15px;
+}
+.aboutus-section-2 .two-btn {
+  margin-top: 400px;
+}
+
+.aboutus-section-2 .two-btn button {
+  position: relative;
+  justify-content: space-between;
+  margin-inline-start: 1rem;
+  border-radius: 5px;
+}
+.aboutus-section-2 .btn-style2{
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+  font-size: 1.6rem;
+}
+.aboutus-section-2 .btn-style2:hover {
+  border: 0.1rem solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(183, 171, 255, 0.5);
+}
+.aboutus-section-2 .rightside-img {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+
+.aboutus-section-2 img {
+  width: 70%;
+  height: 300px;
+}
+
+
+.aboutus-section-2 .button-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+}
+.aboutus-section-2 .button-row:hover {
+  background-color: transparent;
+}
+
+.aboutus-section-2 .button-row a {
+  position: relative;
+  justify-content: space-between;
+  margin-inline-start: 1rem;
+  border-radius: 5px;
+}
+.aboutus-section-2 .button-row .btn-style1{
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+  font-size: 1.4rem;
+}
+.aboutus-section-2 .button-row .btn-style1:hover {
+  border: 0.1rem solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(183, 171, 255, 0.5);
+}
+.aboutus-section-2 .button-row .btn-style2{
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  border: 0.1rem solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: var(--bgcolor);
+  text-transform: capitalize;
+  font-size: 1.4rem;
+}
+
+
+.aboutus-section-2 .button-row .btn-style2:hover {
+  background-color: transparent;
+  color: white;
+  background-color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(183, 171, 255, 0.5);
+}

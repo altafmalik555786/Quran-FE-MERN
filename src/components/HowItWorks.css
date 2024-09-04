@@ -1,0 +1,120 @@
+
+.howitworks-section .col-3{
+  width: 100%;
+}
+.work-container {
+  width: 90%;
+  
+}
+
+.work-container-subdiv {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+  margin: 20px 0px;
+  background-color: #fff;
+  padding: 10px;
+}
+
+.work-container-subdiv:hover {
+  background-color: var(--bgcolor);
+  cursor: pointer;
+}
+
+.work-container-subdiv:hover > .fontawesome-style {
+  background-color: var(--fancy-color);
+}
+
+.work-container-subdiv .howitworks-description {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  font-weight: lighter;
+  width: 100%;
+}
+.main-hero-para,
+.sub-heading{
+  background-color: transparent;
+}
+
+.work-section .fontawesome-style {
+  text-align: left;
+  margin: 2rem 0;
+}
+.fontawesome-style {
+  font-size: 2.3rem;
+  color: var(--primary-color);
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: var(--bgcolor);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.howitworks-section .col-3{
+  width: 100%;
+}
+
+.howitwork-button .btn-howitworks{
+  color: var(--primary-color);
+  background-color: transparent;
+  font-size: 1.6rem;
+}
+
+.howitwork-button .btn-howitworks-border{
+  border-radius: 0rem;
+  border: 0.1rem solid var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(102, 20, 7, 0.5);
+}
+
+.howitwork-button .btn-howitworks:hover {
+  color: #fff;
+  border: 0.1rem solid var(--primary-color);
+  background-color: var(--primary-color);
+}
+
+
+
+.work-container .main-heading {
+  font-size: 3rem;
+  font-weight: bolder;
+  word-spacing: 1rem;
+}
+.work-container .sub-heading {
+  margin-bottom: 50px;
+  color: var(--fancy-color);
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+
+.fontawesome-style {
+  font-size: 2.3rem;
+  color: var(--primary-color);
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: var(--bgcolor);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+
+@media (min-width: 1400px) {
+  .work-container .col-xxl-4 {
+    flex: 0 0 auto;
+    width: 30% !important;
+    margin: auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .work-container .col-lg-4 {
+    flex: 0 0 auto;
+    width: 30% !important;
+    margin: 2.5rem auto;
+  }
+}

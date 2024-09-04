@@ -1,0 +1,131 @@
+
+.navbar .container {
+  width: 90%;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+}
+
+.navbar-bg {
+  background-color: transparent;
+  z-index: 99;
+  position: relative;
+}
+.navbar{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: transparent;
+}
+
+.navbar-brand {
+  font-size: 2.5rem;
+  background-color: transparent;
+}
+.navbar-bg .logo{
+  width: 114px;
+  margin-bottom: 0rem;
+}
+.navbar-light .navbar-brand{
+  color: rgb(255, 255, 255);
+}
+.brand-div{
+  margin-top: 2rem;
+}
+.navbar-div{
+  margin-top: 2rem;
+}
+.navbar-nav{
+  background-color: transparent;
+}
+.navbar-bars{
+  color: #fff;
+  font-size: 22px;
+}
+.navbar-collapse{
+  background-color: transparent;
+}
+.navbar-light .navbar-nav .nav-link{
+  color: rgb(255, 255, 255);
+}
+
+.navbar .nav-link .nav-item{
+  background-color: transparent;
+}
+
+.navbar li {
+  padding: 0 1rem;
+  background-color: transparent;
+
+}
+
+.navbar li a {
+  font-size: 1.7rem;
+  font-weight: lighter;
+  position: relative;
+  background-color: transparent;
+
+}
+
+.navbar li a:hover {
+  color: black !important;
+  text-shadow: 0 0.2rem 0.3rem rgba(183, 171, 255, 0.5);
+}
+
+.nav-btn-style {
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+  font-size: 1.6rem;
+}
+
+.nav-btn-style:first-child {
+  margin-right: 2rem;
+}
+
+.nav-btn-style:hover {
+  border: 0.1rem solid white;
+  background-color: transparent;
+  color: white;
+  box-shadow: 0 0.2rem 0.5rem rgba(255, 255, 255, 0.5);
+}
+
+.nav-btn-style-border {
+  border: 0.1rem solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.5);
+}
+
+.nav-btn-style-border:hover {
+  color: #fff;
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-collapse{
+    margin-left: -130px;
+    background-color: #afafaf;
+  
+  }
+  }
+  @media screen and (max-width: 768px) {
+  .navbar-nav{
+    width: 200px;
+    background-color: #afafaf;
+  
+  }
+  }
+  @media screen and (max-width: 768px) {
+    .navbar .navbar-collapse {
+      position: absolute;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .navbar .nav-item .nav-link .register-button {
+      background-color: white;
+    }
+  }

@@ -1,0 +1,28 @@
+.bgdiv{
+  display: flex;
+  justify-content: center;
+  margin-top: -107px;
+}
+.bg-image{
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 350px;
+  width: 100%;
+}
+@media (max-width: 740px){
+  .bg-image{
+    height: 250px;
+    width: 100%;
+
+  }
+}
+
+.page-header-title{
+  background-color: transparent;
+}
+.page-header-text{
+  background-color: transparent;
+  font-size: 40px;
+  color: white;
+  margin-top: 3rem;
+}

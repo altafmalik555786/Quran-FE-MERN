@@ -1,0 +1,68 @@
+.signup-section{
+  margin-top: 50px;
+}
+.signup-leftside{
+  padding: 10px;
+}
+
+.signup-para{
+  color: var(--text-color);
+}
+
+.signup-section .signup-leftside img {
+  min-width: 80%;
+  max-height: 30rem;
+  height: auto;
+}
+
+.signup-section .signup-input-feild {
+  margin-bottom: 4rem;
+}
+
+.signup-section .signup-rightside form .form-control {
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  height: 5rem;
+  border-radius: 0.5rem;
+  font-size: 1.6rem;
+  padding-left: 1rem;
+  font-weight: lighter;
+}
+.signup-section .form-select{
+  line-height: 4.0;
+  border-radius: 00.5rem;
+  color: #6c757d;
+}
+.signup-section .signup-rightside form .form-check-input {
+  width: 2rem;
+  height: 2rem;
+}
+
+.signup-section .form-checkbox-style {
+  margin: 4rem 0;
+}
+
+.signup-section .signup-rightside form .main-hero-para {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin: 0;
+  font-weight: lighter;
+  width: 75%;
+  padding: 0 2rem;
+}
+
+.registerP-btn {
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+  font-size: 1.6rem;
+}
+.registerP-btn:hover {
+  border: 0.1rem solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(1, 1, 1, 0.5);
+}

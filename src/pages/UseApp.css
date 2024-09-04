@@ -1,0 +1,47 @@
+
+
+.whyus-section .title {
+  text-transform: uppercase;
+  font-weight: bolder;
+  margin: 3rem 0;
+  text-align: left;
+  font-size: 30px;
+}
+
+.whyus-section .heading {
+  font-weight: normal;
+}
+
+.whyus-section .info {
+  margin-top: 1.5rem;
+}
+.whyus-section .para {
+  font-size: 15px;
+}
+
+.whyus-section .number {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 0.1rem solid var(--fancy-color);
+  font-size: 1.5rem;
+  color: var(--fancy-color);
+  display: grid;
+  place-items: center;
+}
+
+.whyus-section .data {
+  padding-left: 2rem;
+}
+
+.whyus-section .data p {
+  margin: 1rem 0;
+}
+.whyus-section .whyus-section-button {
+  padding: 0rem;
+  width: 12rem;
+  height: 5rem;
+  border-radius: 3rem;
+}
+

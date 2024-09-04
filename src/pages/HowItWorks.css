@@ -1,0 +1,41 @@
+
+.work-containerp .main-heading {
+  font-size: 3rem;
+  font-weight: bolder;
+  margin-bottom: 4rem;
+  word-spacing: 1rem;
+}
+.work-containerp .sub-heading {
+  margin-bottom: 50px;
+}
+
+.work-containerp-subdiv {
+  padding: 1rem;
+  
+}
+
+.work-containerp .sub-heading {
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+.fontawesome-style {
+  font-size: 2.3rem;
+  color: var(--primary-color);
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: var(--bgcolor);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.find-tutor-button button {
+  margin-top: 4rem;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  width: 200px;
+}

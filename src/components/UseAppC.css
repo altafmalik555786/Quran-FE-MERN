@@ -1,0 +1,96 @@
+
+.useapp-section .mini-para {
+  font-size: 15px;
+}
+
+.useapp-section img {
+  width: 100%;
+  height: auto;
+  margin: 0rem;
+  margin-top: 5rem;
+}
+
+.useapp-section .mini-title {
+  text-transform: uppercase;
+  font-weight: bolder;
+  margin: 3rem 0;
+  text-align: left;
+  font-size: 30px;
+}
+
+.useapp-section .main-heading {
+  font-weight: normal;
+  
+}
+.alert{
+  color: red  ;
+}
+
+.useapp-section-info {
+  margin-top: 1.5rem;
+}
+
+.useapp-section-number {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 0.1rem solid var(--fancy-color);
+  font-size: 1.5rem;
+  color: var(--fancy-color);
+  display: grid;
+  place-items: center;
+}
+.useapp-section-title{
+  color: var(--fancy-color);
+}
+.useapp-section .useapp-description {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  font-weight: lighter;
+  width: 100%;
+}
+
+.useapp-section-data {
+  padding-left: 2rem;
+}
+
+.useapp-section-data p {
+  margin: 1rem 0;
+}
+
+.useapp-section .useapp-button {
+  height: 50px;
+  width: 200px;
+  border-radius: 3rem;
+}
+
+.our-courses-rightside {
+  margin-top: 10rem;
+}
+
+.our-courses-rightside-content {
+  padding-left: 8rem;
+}
+
+.useapp-button .btn-useapp{
+  color: var(--primary-color);
+  background-color: transparent;
+  font-size: 1.4rem;
+}
+.btn-useapp-border{
+  border-radius: 2rem;
+  border: 0.1rem solid var(--primary-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(102, 20, 7, 0.5);
+}
+
+.useapp-button .btn-useapp:hover {
+  color: #fff;
+  border: 0.1rem solid var(--primary-color);
+  background-color: var(--primary-color);
+}
+@media (max-width: 992px){
+  .useapp-section {
+    margin-top: 0rem;
+  }
+}
