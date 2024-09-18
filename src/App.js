@@ -28,6 +28,7 @@ import QuranRevision from "./components/dashboards/student-dashboard/QuranRevisi
 import Conversations from "./components/dashboards/student-dashboard/Conversations";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Login from "./components/Login";
 
 // 1 context api
 export const UserContext = createContext();
@@ -62,6 +63,7 @@ const App = () => {
           <Route path="/faqs" element={<FaQ />} />
           <Route path="/useapp" element={<UseApp />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
 
           {/* Private routes for authenticated users only */}
           <Route

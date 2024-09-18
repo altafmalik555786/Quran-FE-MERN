@@ -1,120 +1,79 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { fetchStudent, updateStudentProfile } from "../../features/student/studentActions";
-import { fetchStudent,updateStudentProfile } from "../../../store/student/studentActions";
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import StudentHeader from "../../sharedComponents/StudentHeader";
-import StudentSidebar from "../../sharedComponents/StudentSidebar";
-import Loader from "../../sharedComponents/Loader";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Container, Card, Spinner, Alert, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-const EditProfile = () => {
-  const dispatch = useDispatch();
-  const { student, status, error } = useSelector((state) => state.student);
-  const studentId = useSelector((state) => state.auth.user ? state.auth.user._id : null);
+const Profile = () => {
+    const [student, setStudent] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    cellPhone: '',
-    dateOfBirth: '',
-    // Initialize other fields as necessary
-  });
+    useEffect(() => {
+        const fetchStudentProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const studentId = localStorage.getItem('studentId');
 
-  useEffect(() => {
-    if (studentId) {
-      dispatch(fetchStudent(studentId));
+                // Check if token and studentId exist
+                if (!token || !studentId) {
+                    setError('Student not found. Please log in again.');
+                    setLoading(false);
+                    return;
+                }
+
+                // Fetch profile data from backend
+                const res = await axios.get(`http://localhost:8000/api/v1/${studentId}/profile`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                setStudent(res.data);
+                setLoading(false);
+            } catch (err) {
+                setError('Error fetching profile. Please try again later.');
+                setLoading(false);
+            }
+        };
+
+        fetchStudentProfile();
+    }, []);
+
+    // Handle loading state
+    if (loading) {
+        return (
+            <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <Spinner animation="border" />
+            </Container>
+        );
     }
-  }, [dispatch, studentId]);
 
-  useEffect(() => {
-    if (student) {
-      setFormData({
-        name: student.name || '',
-        email: student.email || '',
-        cellPhone: student.cellPhone || '',
-        dateOfBirth: student.dateOfBirth || '',
-        // Set other fields as necessary
-      });
+    // Handle error state
+    if (error) {
+        return (
+            <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                <Alert variant="danger">{error}</Alert>
+            </Container>
+        );
     }
-  }, [student]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+    return (
+        <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+            <Card style={{ width: '28rem' }} className="text-center">
+                <Card.Body>
+                    <Card.Title>{student.name}'s Profile</Card.Title>
+                    <Card.Text>Email: {student.email}</Card.Text>
+                    <Card.Text>Gender: {student.gender}</Card.Text>
+                    <Card.Text>Country: {student.country}</Card.Text>
+                    <Card.Text>City: {student.city}</Card.Text>
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(updateStudentProfile({ studentId, formData }));
-  };
-
-  if (status === 'loading') return <Loader />; // Use Loader component for loading state
-  if (status === 'failed') return <p>Error: {error}</p>; // Handle errors
-
-  return (
-    <>
-      <StudentHeader />
-      <Row>
-        <Col className='col-4 col-md-3 col-xl-2'>
-          <StudentSidebar />
-        </Col>
-        <Col md={9} className="content-col">
-          <Container>
-            <h2>Edit Profile</h2>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="formName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="formEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter your email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  disabled // Typically, email is not editable
-                />
-              </Form.Group>
-              <Form.Group controlId="formCellPhone">
-                <Form.Label>Cell Phone</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your cell phone number"
-                  name="cellPhone"
-                  value={formData.cellPhone}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="formDateOfBirth">
-                <Form.Label>Date of Birth</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="dateOfBirth"
-                  value={formData.dateOfBirth}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              {/* Add more fields as needed */}
-              <Button variant="primary" type="submit">
-                Save Changes
-              </Button>
-            </Form>
-          </Container>
-        </Col>
-      </Row>
-    </>
-  );
+                    {/* Add Edit Button */}
+                    <Button variant="primary" onClick={() => navigate('/student/edit-profile')}>
+                        Edit Profile
+                    </Button>
+                </Card.Body>
+            </Card>
+        </Container>
+    );
 };
 
-export default EditProfile;
+export default Profile;
