@@ -7,14 +7,22 @@ import headerbg from "../assets/bg-2.png";
 import signup from "../assets/signup.webp";
 import free_trail from "../assets/free_trail.png";
 import "./Signup.css";
+import RegisterTutorModal from "../components/modals/registerTutorModal";
 
 const Signup = () => {
   const [registerStudentModal, setRegisterStudentModal] = useState(false);
+  const [registerTutorModal, setRegisterTutorModal] = useState(false);
   const showStudentModal = () => {
     setRegisterStudentModal(true);
   };
   const hideStudentModal = () => {
     setRegisterStudentModal(false);
+  };
+  const showTutorModal = () => {
+    setRegisterTutorModal(true);
+  };
+  const hideTutorModal = () => {
+    setRegisterTutorModal(false);
   };
   return (
     <>
@@ -73,7 +81,7 @@ const Signup = () => {
                       </button>
                     </div>
                     <div className="col-12">
-                      <button className="btn tutor-btn w-100 mb-4 p-3">
+                      <button onClick={showTutorModal} className="btn tutor-btn w-100 mb-4 p-3">
                         Sign up as Tutor
                       </button>
                     </div>
@@ -82,6 +90,11 @@ const Signup = () => {
                     show={registerStudentModal}
                     hide={hideStudentModal}
                   />
+                  <RegisterTutorModal
+                    show={registerTutorModal}
+                    hide={hideTutorModal}
+                  />
+
                 </div>
               </div>
             </div>
