@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Spinner, Alert, Button, Form } from 'react-bootstrap';
-import { Container, Table, Col, Row, Card } from 'react-bootstrap';
+import { Container, Table, Col,Image, Row, Card } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
-
+import ceo from '../../../assets/ceo.png'
 import { useNavigate } from 'react-router-dom';
 import StudentHeader from '../../sharedComponents/StudentHeader';
 import StudentSidebar from '../../sharedComponents/StudentSidebar';
@@ -14,6 +14,8 @@ const Profile = () => {
     const [error, setError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({});
+    const [file, setFile] = useState(null); // For handling the image file
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,6 +37,7 @@ const Profile = () => {
                 const res = await axios.get(`http://localhost:8000/api/v1/${studentId}/profile`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
+                console.log('profile data', res);
 
                 setStudent(res.data);
                 setFormData(res.data);  // Set form data for editing if needed
@@ -54,16 +57,33 @@ const Profile = () => {
         setIsEditing(false);
     };
 
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
+    const handleChange = (e) => {
+        if (e.target.name === 'image') {
+            setFile(e.target.files[0]); // Handle image file separately
+        } else {
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+        }
+    };
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('token');
             const decodedToken = jwtDecode(token);
             const studentId = decodedToken.id;
 
-            await axios.put(`http://localhost:8000/api/v1/${studentId}/update-profile`, formData, {
-                headers: { Authorization: `Bearer ${token}` }
+            // Use FormData to append text fields and file for upload
+            const data = new FormData();
+            data.append('name', formData.name);
+            data.append('email', formData.email);
+            // Append other fields as needed...
+            if (file) {
+                data.append('image', file); // Append the image file if selected
+            }
+
+            await axios.put(`http://localhost:8000/api/v1/${studentId}/update-profile`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data' // Ensure correct headers for file upload
+                }
             });
 
             setStudent(formData);  // Update displayed profile data
@@ -73,6 +93,7 @@ const Profile = () => {
             setError('Error updating profile. Please try again later.');
         }
     };
+
 
     if (loading) {
         return (
@@ -91,7 +112,6 @@ const Profile = () => {
     }
 
 
-    const allSubjects = ['Recitation', 'Math', 'Physics', 'English']; // Example list of all possible subjects
 
     return (
         <>
@@ -105,6 +125,33 @@ const Profile = () => {
 
                     {isEditing ? (
                         <Form>
+                            <Form.Group controlId="formImage">
+                                <Form.Label>Upload Profile</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    name="image"
+                                    value={formData.image}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formOldPassword">
+                                <Form.Label>Old Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="oldPassword"
+                                    value={formData.oldPassword}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formNewPassword">
+                                <Form.Label>New Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="newPassword"
+                                    value={formData.newPassword}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
                             <Form.Group controlId="formName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
@@ -238,9 +285,20 @@ const Profile = () => {
 
 
 
-                            <Container>
-                                <Row className="d-flex justify-content-center">
+                            <div className='m-4 md-'>
+
+                                <Row>
                                     {/* First Row */}
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Profile Image:</strong></label>
+                                        <div className="border p-2">
+                                            {student.image ? (
+                                                <Image src={student.image} roundedCircle width={150} height={150} />
+                                            ) : (
+                                                <p>No profile image available</p>
+                                            )}
+                                        </div>
+                                    </Col>
                                     <Col xs={12} md={4} lg={3} className="p-3">
                                         <label><strong>Email:</strong></label>
                                         <div className='border p-2'>{student.email || 'N/A'}</div>
@@ -318,7 +376,7 @@ const Profile = () => {
                                     </Col>
 
                                 </Row>
-                            </Container>
+                            </div>
 
 
 
