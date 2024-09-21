@@ -110,7 +110,16 @@ const RegisterStudentModal = ({ show, hide }) => {
           toast.error("An error occurred during registration.");
         } else {
           const response = resultAction.payload;
-          const { token, role } = response;
+          console.log('response', response);
+
+          const { token, user } = response;
+          const { role } = user;  // Destructure role from user
+
+          console.log('role1', role);
+
+
+          console.log('role from user', role);  // Log to verify the role is correct
+
           dispatch(setCredentials({ token, role }));
           localStorage.setItem("token", token);
           localStorage.setItem("role", role);

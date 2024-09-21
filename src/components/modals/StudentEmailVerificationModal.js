@@ -1,4 +1,3 @@
-// src/components/StudentEmailVerificationModal.js
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -7,10 +6,11 @@ import VerificationInput from "react-verification-input";
 import { useNavigate } from "react-router-dom";
 
 const StudentEmailVerificationModal = ({ show, onHide }) => {
-  const history = useNavigate();
+  const navigate = useNavigate(); // useNavigate instead of history
   const [code, setCode] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const role = localStorage.getItem("role");
+
   const handleCodeChange = (value) => {
     setCode(value);
   };
@@ -22,23 +22,28 @@ const StudentEmailVerificationModal = ({ show, onHide }) => {
         "http://localhost:8000/api/v1/verify-email",
         { code }
       );
-      if (response.status === 200) {
-        toast.success("Email verified successfully!");
+
+      // Check if the response is successful
+      if (response.data.message === "Email verified successfully.") {
+        toast.success(response.data.message);
         onHide();
+
         // Redirect based on user role
         if (role === "student") {
-          history.push("/students/dashboard");
+          navigate("/students/dashboard");
         } else if (role === "teacher") {
-          history.push("/tutor-dashboard");
+          navigate("/tutor-dashboard");
         } else if (role === "admin") {
-          history.push("/admin-dashboard");
+          navigate("/admin-dashboard");
         } else {
-          history.push("/signup"); 
+          navigate("/signup");
         }
       } else {
-        toast.error("Invalid verification code.");
+        // In case the response is not successful
+        toast.error(response.data.message || "Invalid verification code.");
       }
     } catch (error) {
+      // Error handling for failed request
       toast.error("Error verifying code.");
     } finally {
       setIsSubmitting(false);

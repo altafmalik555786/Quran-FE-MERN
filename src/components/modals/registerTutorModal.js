@@ -70,8 +70,7 @@ const RegisterTutorModal = ({ show, hide }) => {
           const response = resultAction.payload;
           const { token, role } = response;
           dispatch(setCredentials({ token, role }));
-          localStorage.setItem("tutor-token", token);
-          localStorage.setItem("tutor-role", role);
+        
           setEmail(response.email);
           setCode(response.verificationCode);
 

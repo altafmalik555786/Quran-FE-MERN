@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {  Spinner, Alert, Button, Form } from 'react-bootstrap';
-import { Container, Table,  Col, Row, Card } from 'react-bootstrap';
+import { Spinner, Alert, Button, Form } from 'react-bootstrap';
+import { Container, Table, Col, Row, Card } from 'react-bootstrap';
+import { jwtDecode } from 'jwt-decode';
 
 import { useNavigate } from 'react-router-dom';
 import StudentHeader from '../../sharedComponents/StudentHeader';
@@ -19,20 +20,24 @@ const Profile = () => {
         const fetchStudentProfile = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const studentId = localStorage.getItem('studentId');
 
-                if (!token || !studentId) {
-                    setError('Student not found. Please log in again.');
+                if (!token) {
+                    setError('Token not found. Please log in again.');
                     setLoading(false);
                     return;
                 }
 
+                // Decode token to get student ID
+                const decodedToken = jwtDecode(token);
+                const studentId = decodedToken.id;
+
+                // Fetch student profile based on the ID extracted from the token
                 const res = await axios.get(`http://localhost:8000/api/v1/${studentId}/profile`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
                 setStudent(res.data);
-                setFormData(res.data);
+                setFormData(res.data);  // Set form data for editing if needed
                 setLoading(false);
             } catch (err) {
                 setError('Error fetching profile. Please try again later.');
@@ -45,25 +50,23 @@ const Profile = () => {
 
     const handleEdit = () => setIsEditing(true);
     const handleCancel = () => {
-        setFormData(student); // Reset form data to original student data
+        setFormData(student);  // Reset form data to original student data
         setIsEditing(false);
     };
+
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('token');
-            const studentId = localStorage.getItem('studentId');
-
-            if (!token || !studentId) {
-                setError('Student not found. Please log in again.');
-                return;
-            }
+            const decodedToken = jwtDecode(token);
+            const studentId = decodedToken.id;
 
             await axios.put(`http://localhost:8000/api/v1/${studentId}/update-profile`, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            setStudent(formData); // Update the displayed profile data
+            setStudent(formData);  // Update displayed profile data
             setIsEditing(false);
             setError('');
         } catch (err) {
@@ -87,19 +90,20 @@ const Profile = () => {
         );
     }
 
+
     const allSubjects = ['Recitation', 'Math', 'Physics', 'English']; // Example list of all possible subjects
 
     return (
-      <>
-      <StudentHeader/>
-      <Row>
-        <Col className="col-4 col-md-3 col-xl-2">
-          <StudentSidebar/>
-        </Col>
-        <Col md={9} className="content-col">
-         
-                    
-        {isEditing ? (
+        <>
+            <StudentHeader />
+            <Row>
+                <Col className="col-4 col-md-3 col-xl-2">
+                    <StudentSidebar />
+                </Col>
+                <Col md={9} className="content-col">
+
+
+                    {isEditing ? (
                         <Form>
                             <Form.Group controlId="formName">
                                 <Form.Label>Name</Form.Label>
@@ -230,75 +234,95 @@ const Profile = () => {
                         </Form>
                     ) : (
                         <>
-                        
-              <Table className='d-flex justify-content-center align-items-center w-100' bordered hover>
-                <tbody>
-                  <tr>
-                    <td>Email</td>
-                    <td>{student.email || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Cell Phone</td>
-                    <td>{student.cellPhone || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Date of Birth</td>
-                    <td>{student.dateOfBirth || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Language</td>
-                    <td>{student.language || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Student Gender</td>
-                    <td>{student.studentGender || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Country</td>
-                    <td>{student.country || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Time Zone</td>
-                    <td>{student.timeZone || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>City</td>
-                    <td>{student.city || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Address</td>
-                    <td>{student.address || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Tutor Gender</td>
-                    <td>{student.tutorGender || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Hourly Rate</td>
-                    <td>{student.hourlyRate || 'N/A'}</td>
-                  </tr>
-                  <tr>
-                    <td>Receive Messages</td>
-                    <td>{student.receiveMessages ? 'Yes' : 'No'}</td>
-                  </tr>
-                  <tr>
-                    <td>Subjects</td>
-                    <td>
-                      {allSubjects.map((subject) => (
-                        <Form.Check
-                          key={subject}
-                          type="checkbox"
-                          id={`subject-${subject}`}
-                          label={subject}
-                          checked={student.subjects.includes(subject)}
-                          disabled // Optional: Disable checkboxes if needed
-                        />
-                      ))}
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-           
+
+
+
+
+                            <Container>
+                                <Row className="d-flex justify-content-center">
+                                    {/* First Row */}
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Email:</strong></label>
+                                        <div className='border p-2'>{student.email || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Cell Phone:</strong></label>
+                                        <div className='border p-2'>{student.cellPhone || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Date of Birth:</strong></label>
+                                        <div className='border p-2'>{student.dateOfBirth || 'N/A'}</div>
+                                    </Col>
+
+                                    {/* Second Row */}
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Language:</strong></label>
+                                        <div className='border p-2'>{student.language || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Student Gender:</strong></label>
+                                        <div className='border p-2'>{student.studentGender || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Country:</strong></label>
+                                        <div className='border p-2'>{student.country || 'N/A'}</div>
+                                    </Col>
+
+                                    {/* Third Row */}
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Time Zone:</strong></label>
+                                        <div className='border p-2'>{student.timeZone || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>City:</strong></label>
+                                        <div className='border p-2'>{student.city || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Address:</strong></label>
+                                        <div className='border p-2'>{student.address || 'N/A'}</div>
+                                    </Col>
+
+                                    {/* Fourth Row */}
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Tutor Gender:</strong></label>
+                                        <div className='border p-2'>{student.tutorGender || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Hourly Rate:</strong></label>
+                                        <div className='border p-2'>{student.hourlyRate || 'N/A'}</div>
+                                    </Col>
+                                    <Col xs={12} md={4} lg={3} className="p-3">
+                                        <label><strong>Receive Messages:</strong></label>
+                                        <div className='border p-2'>{student.receiveMessages ? 'Yes' : 'No'}</div>
+                                    </Col>
+
+                                    {/* Fifth Row for Subjects */}
+                                    <Col xs={12} className="p-3">
+                                        <label><strong>Subjects:</strong></label>
+                                        <div className='border p-2'>
+                                            {student.subjects && student.subjects.length > 0 ? (
+                                                student.subjects.map((subject) => (
+                                                    <Form.Check
+                                                        key={subject}
+                                                        type="checkbox"
+                                                        id={`subject-${subject}`}
+                                                        label={subject}
+                                                        checked={student.subjects.includes(subject)}
+                                                        disabled
+                                                    />
+                                                ))
+                                            ) : (
+                                                <div>N/A</div> // Optional: Show a message if no subjects are available
+                                            )}
+                                        </div>
+                                    </Col>
+
+                                </Row>
+                            </Container>
+
+
+
+
                         </>
                     )}
 
@@ -318,11 +342,11 @@ const Profile = () => {
                             </Button>
                         )}
                     </div>
-               
-        </Col>
-      </Row>
-    </>
-        
+
+                </Col>
+            </Row>
+        </>
+
     );
 };
 

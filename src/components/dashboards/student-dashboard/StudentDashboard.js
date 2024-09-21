@@ -20,15 +20,14 @@ const StudentDashboard = ({ children }) => {
           <StudentSidebar />
         </Col>
         <Col md={9} className="content-col">
-          <Routes>
-            <Route path="/students/dashboard" component={Dashboard} />
-
-            <Route path="/students/edit-profile" component={EditProfile} />
-            <Route path="/students/parental_watch" component={ParentalWatch} />
-            <Route path="/students/on_demand" component={StudentArchives} />
-            <Route path="/students/quran_revision" component={QuranRevision} />
+        <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/students/edit-profile" element={<EditProfile />} />
+            <Route path="/students/parental_watch" element={<ParentalWatch />} />
+            <Route path="/students/on_demand" element={<StudentArchives />} />
+            <Route path="/students/quran_revision" element={<QuranRevision />} />
             {/* Add more routes as needed */}
-            <Route path="*" render={() => <div>Page not found</div>} />
+            <Route path="*" element={<div>Page not found</div>} />
           </Routes>
         </Col>
       </Row>
