@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Spinner, Alert, Button, Form } from 'react-bootstrap';
-import { Container, Table, Col,Image, Row, Card } from 'react-bootstrap';
+import { Container, Table, Col, Image, Row, Card } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import ceo from '../../../assets/ceo.png'
 import { useNavigate } from 'react-router-dom';
 import StudentHeader from '../../sharedComponents/StudentHeader';
 import StudentSidebar from '../../sharedComponents/StudentSidebar';
+import ChangePasswordForm from '../../sharedComponents/ChangePassword';
 
 const Profile = () => {
     const [student, setStudent] = useState(null);
@@ -120,11 +121,17 @@ const Profile = () => {
                 <Col className="col-4 col-md-3 col-xl-2">
                     <StudentSidebar />
                 </Col>
-                <Col md={9} className="content-col">
 
+                <Col md={9} className="content-col">
+                    <div>
+                        <ChangePasswordForm
+                            apiEndpoint="http://localhost:8000/api/v1/"
+                            userRole="student"
+                            tokenKey="token" />
+                    </div>
 
                     {isEditing ? (
-                        <Form>
+                        <Form className='m-4'>
                             <Form.Group controlId="formImage">
                                 <Form.Label>Upload Profile</Form.Label>
                                 <Form.Control
@@ -134,24 +141,8 @@ const Profile = () => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formOldPassword">
-                                <Form.Label>Old Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    name="oldPassword"
-                                    value={formData.oldPassword}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="formNewPassword">
-                                <Form.Label>New Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    name="newPassword"
-                                    value={formData.newPassword}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
+
+
                             <Form.Group controlId="formName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
@@ -262,13 +253,35 @@ const Profile = () => {
                             </Form.Group>
                             <Form.Group controlId="formSubjects">
                                 <Form.Label>Subjects</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="subjects"
-                                    value={formData.subjects.join(', ')}
-                                    onChange={(e) => setFormData({ ...formData, subjects: e.target.value.split(', ') })}
-                                />
+                                <div className='d-flex flex-wrap'>
+                                    {['Recitation', 'Translation', 'Fiqh', 'Tajweed'].map((subject) => (
+                                        <Form.Check
+                                            key={subject}
+                                            type="checkbox"
+                                            id={`subject-${subject}`}
+                                            label={subject}
+                                            checked={formData.subjects.includes(subject)}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    // Add the subject if it's checked
+                                                    setFormData({
+                                                        ...formData,
+                                                        subjects: [...formData.subjects, subject]
+                                                    });
+                                                } else {
+                                                    // Remove the subject if it's unchecked
+                                                    setFormData({
+                                                        ...formData,
+                                                        subjects: formData.subjects.filter(s => s !== subject)
+                                                    });
+                                                }
+                                            }}
+                                            className="me-3 mb-2"
+                                        />
+                                    ))}
+                                </div>
                             </Form.Group>
+
                             <Form.Group controlId="formReceiveMessages">
                                 <Form.Check
                                     type="checkbox"
@@ -289,6 +302,8 @@ const Profile = () => {
 
                                 <Row>
                                     {/* First Row */}
+                                    <h3>Profile Info: </h3>
+
                                     <Col xs={12} md={4} lg={3} className="p-3">
                                         <label><strong>Profile Image:</strong></label>
                                         <div className="border p-2">
@@ -355,12 +370,13 @@ const Profile = () => {
                                     </Col>
 
                                     {/* Fifth Row for Subjects */}
-                                    <Col xs={12} className="p-3">
+                                    <Col xs={12} md={4} lg={4} className="p-3">
                                         <label><strong>Subjects:</strong></label>
-                                        <div className='border p-2'>
+                                        <div className='border p-2 d-flex flex-wrap'> {/* Apply Bootstrap classes for flex layout */}
                                             {student.subjects && student.subjects.length > 0 ? (
                                                 student.subjects.map((subject) => (
                                                     <Form.Check
+                                                        className="me-3" // Add margin for spacing between items
                                                         key={subject}
                                                         type="checkbox"
                                                         id={`subject-${subject}`}
@@ -375,6 +391,7 @@ const Profile = () => {
                                         </div>
                                     </Col>
 
+
                                 </Row>
                             </div>
 
@@ -384,7 +401,7 @@ const Profile = () => {
                         </>
                     )}
 
-                    <div className="mt-3 d-flex justify-content-center">
+                    <div className="m-4 d-flex justify-content-start">
                         {isEditing ? (
                             <>
                                 <Button variant="primary" onClick={handleSave} className="me-2 w-25">

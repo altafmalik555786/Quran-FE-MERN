@@ -29,6 +29,15 @@ import Conversations from "./components/dashboards/student-dashboard/Conversatio
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./components/Login";
+import EditProfil from "./components/dashboards/tutor-dashboard/EditProfil";
+import AddSchedule from "./components/dashboards/tutor-dashboard/AddSchedule";
+import AccountSettings from "./components/dashboards/tutor-dashboard/AccountSettings";
+import ClassroomDemo from "./components/dashboards/tutor-dashboard/ClassroomDemo";
+import TrainingArea from "./components/dashboards/tutor-dashboard/TrainingArea";
+import FindStudents from "./components/dashboards/tutor-dashboard/FindStudents";
+import Billing from "./components/dashboards/tutor-dashboard/Billing";
+import Messages from "./components/dashboards/tutor-dashboard/Messages";
+
 
 // 1 context api
 export const UserContext = createContext();
@@ -71,6 +80,10 @@ const App = () => {
             element={<PrivateRoute element={<StudentDashboard />} roles={["student"]} />}
           />
           <Route
+            path="/tutor-dashboard"
+            element={<PrivateRoute element={<TutorDashboard />} roles={["tutor"]} />}
+          />
+          <Route
             path="/students/edit-profile"
             element={<PrivateRoute element={<EditProfile />} roles={["student"]} />}
           />
@@ -90,13 +103,48 @@ const App = () => {
             path="/conversations"
             element={<PrivateRoute element={<Conversations />} roles={["student"]} />}
           />
-          <Route
-            path="/tutor-dashboard"
-            element={<PrivateRoute element={<TutorDashboard />} roles={["teacher"]} />}
-          />
+
           <Route
             path="/admin-dashboard"
             element={<PrivateRoute element={<AdminDashboard />} roles={["admin"]} />}
+          />
+
+          {/* teacher routes  */}
+          <Route
+            path="/tutor-dashboard"
+            element={<PrivateRoute element={<TutorDashboard />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/edit-profile"
+            element={<PrivateRoute element={<EditProfil />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/add-schedule"
+            element={<PrivateRoute element={<AddSchedule />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/settings"
+            element={<PrivateRoute element={<AccountSettings />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/classroom-demo"
+            element={<PrivateRoute element={<ClassroomDemo />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/training-area"
+            element={<PrivateRoute element={<TrainingArea />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/find-quran-students"
+            element={<PrivateRoute element={<FindStudents />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/calls-history"
+            element={<PrivateRoute element={<Billing />} roles={["tutor"]} />}
+          />
+          <Route
+            path="/conversations"
+            element={<PrivateRoute element={<Messages />} roles={["tutor"]} />}
           />
 
           {/* Fallback for any other routes */}
@@ -111,8 +159,8 @@ const App = () => {
                         ? getUserRole() === "student"
                           ? "/students/dashboard"
                           : getUserRole() === "teacher"
-                          ? "/tutor-dashboard"
-                          : "/admin-dashboard"
+                            ? "/tutor-dashboard"
+                            : "/admin-dashboard"
                         : "/signup"
                     }
                   />

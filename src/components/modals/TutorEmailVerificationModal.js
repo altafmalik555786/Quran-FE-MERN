@@ -1,4 +1,3 @@
-// src/components/StudentEmailVerificationModal.js
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -10,7 +9,8 @@ const TutorEmailVerificationModal = ({ show, hide }) => {
   const history = useNavigate();
   const [code, setCode] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const role = localStorage.getItem("tutor-role");
+  const role = localStorage.getItem("role");
+
   const handleCodeChange = (value) => {
     setCode(value);
   };
@@ -22,26 +22,31 @@ const TutorEmailVerificationModal = ({ show, hide }) => {
         "http://localhost:8000/api/v1/tutor/verify-email",
         { code }
       );
+
+      // Check if the response is a success
       if (response.status === 200) {
         toast.success("Email verified successfully!");
         hide();
-        // Redirect based on user role
+
+        // Role-based redirection
         if (role === "student") {
-          history.push("/students/dashboard");
-        } else if (role === "teacher") {
-          history.push("/tutor-dashboard");
+          history("/students/dashboard");
+        } else if (role === "tutor") {
+          history("/tutor-dashboard");
         } else if (role === "admin") {
-          history.push("/admin-dashboard");
+          history("/admin-dashboard");
         } else {
-          history.push("/signup"); 
+          history("/signup"); // Redirect to signup if role is not set
         }
       } else {
+        // If verification failed (non-200 status)
         toast.error("Invalid verification code.");
       }
     } catch (error) {
-      toast.error("Error verifying code.");
+      // Handle any errors that occurred during the request
+      toast.error("Error verifying code. Please try again.");
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Re-enable the button
     }
   };
 
