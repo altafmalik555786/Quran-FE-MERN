@@ -57,14 +57,16 @@ const Profile = () => {
         setFormData(student);  // Reset form data to original student data
         setIsEditing(false);
     };
-
     const handleChange = (e) => {
-        if (e.target.name === 'image') {
-            setFile(e.target.files[0]); // Handle image file separately
+        const { name, value, files } = e.target;
+
+        if (name === 'image') {
+            setFile(files[0]); // Store the selected file
         } else {
-            setFormData({ ...formData, [e.target.name]: e.target.value });
+            setFormData({ ...formData, [name]: value });
         }
     };
+
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -137,12 +139,9 @@ const Profile = () => {
                                 <Form.Control
                                     type="file"
                                     name="image"
-                                    value={formData.image}
-                                    onChange={handleChange}
+                                    onChange={handleChange} // Use the same handler
                                 />
                             </Form.Group>
-
-
                             <Form.Group controlId="formName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
@@ -304,16 +303,26 @@ const Profile = () => {
                                     {/* First Row */}
                                     <h3>Profile Info: </h3>
 
-                                    <Col xs={12} md={4} lg={3} className="p-3">
-                                        <label><strong>Profile Image:</strong></label>
-                                        <div className="border p-2">
-                                            {student.image ? (
-                                                <Image src={student.image} roundedCircle width={150} height={150} />
-                                            ) : (
-                                                <p>No profile image available</p>
-                                            )}
-                                        </div>
-                                    </Col>
+                                    {/* <Col xs={12} md={4} lg={3} className="p-3"> */}
+                                    <label><strong>Profile Image:</strong></label>
+                                    <div className="p-2">
+                                        {student.image ? (
+                                            <img
+                                                src={student.image}
+                                                alt="Profile"
+                                                style={{
+                                                    width: "80px",
+                                                    height: "80px",
+                                                    borderRadius: "50%", // For rounded-circle effect
+                                                    // Ensures the image fits within the circle without distortion
+                                                }}
+                                            />
+                                        ) : (
+                                            <p>No profile image available</p>
+                                        )}
+                                    </div>
+
+                                    {/* </Col> */}
                                     <Col xs={12} md={4} lg={3} className="p-3">
                                         <label><strong>Email:</strong></label>
                                         <div className='border p-2'>{student.email || 'N/A'}</div>
