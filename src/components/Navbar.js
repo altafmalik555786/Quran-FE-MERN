@@ -8,6 +8,7 @@ import menulogo from "../assets/menu-logo1.png";
 
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const RenderMenu = () => {
     return (
       <>
@@ -66,9 +67,9 @@ const Navbar = () => {
         <li className="nav-item">
           <form className="d-flex register-button">
             <button
-              className="btn  nav-btn-style"
-              type="submit"
-              onClick={() => history.push("/signup")}
+              className="btn nav-btn-style"
+              type="button" // changed to 'button' instead of 'submit'
+              onClick={() => navigate("/signup")} // use 'navigate' here
             >
               Register
             </button>
@@ -80,7 +81,7 @@ const Navbar = () => {
 
   // toggle bar in mobile view click functionality
   const [show, setShow] = useState(false);
-  const history = useNavigate();
+
 
   return (
     <>
