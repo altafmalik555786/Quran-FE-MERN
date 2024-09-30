@@ -10,7 +10,7 @@ import axios from "axios";
 const FindTutor = () => {
 
 
-  const [tutors, setTutors] = useState([]);
+  const [tutor, setTutor] = useState([]);
   console.log(tutors);
   
 
@@ -21,7 +21,7 @@ const FindTutor = () => {
       try {
         const response = await axios.get("http://localhost:8000/api/v1/tutor/list"); // Assuming the backend API is available at /api/tutors
       
-        setTutors(response.data.tutors);
+        setTutor(response.data.tutors);
         console.log('tutor list data', response.data.tutors);
 
       } catch (error) {
@@ -102,8 +102,8 @@ const FindTutor = () => {
             To choose any tutor, contact us to start with choosen tutor.
           </h3>
           <div className="CardsMainDiv">
-            {tutors.length > 0 ? (
-              tutors.map((tutor) => (
+            {tutor.length > 0 ? (
+              tutor.map((tutor) => (
                 <div key={tutor.id} className="col-md-4 mb-4">
                   <div className="card">
                   <img

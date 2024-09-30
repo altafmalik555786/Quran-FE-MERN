@@ -15,14 +15,31 @@ const EditProfile = () => {
     language: '',
     fiqh: '',
     sect: '',
+    description: '', // New field for description
+    subjects: [], // New field for subjects
   });
 
   // Handle both text input and file (image) input changes in one function
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value, files, checked } = e.target;
 
     if (name === 'image') {
       setFile(files[0]); // Store the selected file
+    } else if (name === 'subjects') {
+      // Handle checkbox selection
+      if (checked) {
+        // Add the selected subject to the array
+        setFormData((prevState) => ({
+          ...prevState,
+          subjects: [...prevState.subjects, value],
+        }));
+      } else {
+        // Remove the unselected subject from the array
+        setFormData((prevState) => ({
+          ...prevState,
+          subjects: prevState.subjects.filter((subject) => subject !== value),
+        }));
+      }
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -38,6 +55,8 @@ const EditProfile = () => {
     formDataToSend.append('language', formData.language);
     formDataToSend.append('fiqh', formData.fiqh);
     formDataToSend.append('sect', formData.sect);
+    formDataToSend.append('description', formData.description); // Add description
+    formDataToSend.append('subjects', JSON.stringify(formData.subjects)); // Add subjects as JSON
 
     if (file) {
       formDataToSend.append('image', file); // Append the selected image file
@@ -70,6 +89,8 @@ const EditProfile = () => {
           language: '',
           fiqh: '',
           sect: '',
+          description: '',
+          subjects: [],
         });
         setFile(null); // Reset the image file state
         console.log('Profile updated successfully', response.data);
@@ -146,6 +167,58 @@ const EditProfile = () => {
                 onChange={handleChange}
                 accept="image/*"
               />
+            </Form.Group>
+
+            {/* Description Field */}
+            <Form.Group controlId="description">
+              <Form.Label>About</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Tell us about yourself"
+                rows={3}
+              />
+            </Form.Group>
+
+            {/* Subjects Checkbox */}
+            <Form.Group>
+              <Form.Label>Subjects</Form.Label>
+              <div>
+                <Form.Check
+                  type="checkbox"
+                  label="Hafiz"
+                  value="Hafiz"
+                  checked={formData.subjects.includes('Hafiz')}
+                  onChange={handleChange}
+                  name="subjects"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Recitation"
+                  value="Recitation"
+                  checked={formData.subjects.includes('Recitation')}
+                  onChange={handleChange}
+                  name="subjects"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Tajweed"
+                  value="Tajweed"
+                  checked={formData.subjects.includes('Tajweed')}
+                  onChange={handleChange}
+                  name="subjects"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Arabic"
+                  value="Arabic"
+                  checked={formData.subjects.includes('Arabic')}
+                  onChange={handleChange}
+                  name="subjects"
+                />
+              </div>
             </Form.Group>
 
             <Button type="submit" className="btn btn-success my-4">
