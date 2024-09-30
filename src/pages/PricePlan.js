@@ -1,17 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PricePlan.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { NavLink } from "react-router-dom";
 import headerbg from "../assets/bg-2.png";
 import feeplan from "../assets/feeplan.webp";
+import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
 
 const PricePlan = () => {
+  const [selectedPlanId, setSelectedPlanId] = useState(null);
+
+  // Function to handle plan registration
+  const handleRegisterPlan = async (planId) => {
+    setSelectedPlanId(planId); // Set the selected plan ID
+    const token = localStorage.getItem('token');
+
+    // Check if token exists
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    const decodedToken = jwtDecode(token);
+    const studentId = decodedToken.id;
+    console.log('plan student id', studentId);
+
+    const url = `http://localhost:8000/api/v1/add-student-plan/${studentId}`; // Adjust the URL based on your setup
+
+    try {
+      const response = await axios.post(url, { planId });
+
+      if (response.status === 200) {
+        console.log("Plan registered successfully:", response.data);
+        // Optionally, you can show a success message or redirect the user
+      }
+    } catch (error) {
+      console.error("Error registering plan:", error.response ? error.response.data : error.message);
+      // Optionally, show an error message
+    }
+  };
+
   return (
     <>
       <Navbar />
 
-      {/* page header start */}
+      {/* Page header start */}
       <div className="bgdiv">
         <div
           className="p-5 text-center bg-image"
@@ -26,19 +60,17 @@ const PricePlan = () => {
           </div>
         </div>
       </div>
-      {/* page header end */}
+      {/* Page header end */}
 
       <section className="feeplan-section-1">
         <div className="container mb-5">
           <div className="row">
-            {/* 1section right side data  */}
-            <div className="col-12 col-lg-6  feeplan-leftside d-flex justify-content-center flex-start flex-column">
+            {/* Section left side data */}
+            <div className="col-12 col-lg-6 feeplan-leftside d-flex justify-content-center flex-start flex-column">
               <h1 className="title">Q Quranic Fee & Plans</h1>
-              <h3 className="heading">Plans that match everyone needs..</h3>
+              <h3 className="heading">Plans that match everyone's needs..</h3>
               <p className="description">
-                Q Quran Fee and Plans are very flexible to match every one
-                needs. We take very less amount so everyone can take classes and
-                learn from us.
+                Q Quran Fee and Plans are very flexible to match everyone's needs. We take a very small amount so everyone can take classes and learn from us.
               </p>
 
               <br />
@@ -57,9 +89,9 @@ const PricePlan = () => {
               </div>
             </div>
 
-            {/* images section  */}
-            <div className="col-12 col-lg-4  feeplan-rightside d-flex justify-content-center flex-end flex-column">
-              <img src={feeplan} alt="aboutusIMg" />
+            {/* Images section */}
+            <div className="col-12 col-lg-4 feeplan-rightside d-flex justify-content-center flex-end flex-column">
+              <img src={feeplan} alt="about us" />
             </div>
           </div>
         </div>
@@ -77,9 +109,9 @@ const PricePlan = () => {
                 <li>Screen Sharing</li>
                 <li>Male/Female</li>
                 <li className="grey">
-                  <NavLink className="button" to="/signup">
+                  <button className="button" onClick={() => handleRegisterPlan("BASIC_PLAN_ID")}> {/* Replace with actual plan ID */}
                     Register
-                  </NavLink>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -94,9 +126,9 @@ const PricePlan = () => {
                 <li>Screen Sharing</li>
                 <li>Male/Female</li>
                 <li className="grey">
-                  <NavLink className="button" to="/signup">
+                  <button className="button" onClick={() => handleRegisterPlan("STANDARD_PLAN_ID")}> {/* Replace with actual plan ID */}
                     Register
-                  </NavLink>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -109,9 +141,9 @@ const PricePlan = () => {
                 <li>Screen Sharing</li>
                 <li>Male/Female</li>
                 <li className="grey">
-                  <NavLink className="button" to="/signup">
+                  <button className="button" onClick={() => handleRegisterPlan("PREMIUM_PLAN_ID")}> {/* Replace with actual plan ID */}
                     Register
-                  </NavLink>
+                  </button>
                 </li>
               </ul>
             </div>

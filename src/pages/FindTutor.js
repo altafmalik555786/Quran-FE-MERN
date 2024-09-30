@@ -106,9 +106,9 @@ const FindTutor = () => {
               tutors.map((tutor) => (
                 <div key={tutor.id} className="col-md-4 mb-4">
                   <div className="card">
-                    <img
-                      className="card-img-top"
-                      src={tutor.avatar ? tutor.avatar : "https://images.unsplash.com/photo-1576764402988-7143f9cca90a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80"} // Use default avatar if tutor.avatar is missing
+                  <img
+                      className="card-img-top "
+                      src={tutor.image ? tutor.image : "https://images.unsplash.com/photo-1576764402988-7143f9cca90a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80"} // Use default avatar if tutor.image is missing
                       alt={tutor.name}
                     />
                     <div className="card-body">

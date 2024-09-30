@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import StudentHeader from "../../sharedComponents/StudentHeader";
-import { Container, Row, Col, Button, Badge } from "react-bootstrap";
-import StudentSidebar from "../../sharedComponents/StudentSidebar";
+import { Row, Col, Button, Badge } from "react-bootstrap";
 import { MdMessage } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { BsDownload } from "react-icons/bs";
-import { FaEyeSlash, FaRegClock } from "react-icons/fa";
-import { FaRegCommentDots, FaStar } from 'react-icons/fa';
-
+import { FaRegCommentDots, FaStar,FaEyeSlash } from 'react-icons/fa';
 import axios from "axios";
+
 const Dashboard = () => {
   const [tutors, setTutors] = useState([]);
   const [activeTab, setActiveTab] = useState("recommended");
