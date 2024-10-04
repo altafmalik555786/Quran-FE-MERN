@@ -13,7 +13,7 @@ import TutorSidebar from '../../sharedComponents/TutorSidebar';
 
 const AddSchedule = () => {
   const [availabilityFields, setAvailabilityFields] = useState([
-    { startAt: '', endAt: '', day: 'Monday', id: Date.now() },
+    { startAt: '', endAt: '', day: 'Monday', id: null },
   ]);
 
   // Fetch schedules on component mount
@@ -23,69 +23,93 @@ const AddSchedule = () => {
         const response = await axios.get('http://localhost:8000/api/v1/tutor/get-schedule');
         const fetchedSchedules = response.data.map(schedule => ({
           ...schedule,
-          id: schedule._id, // Use MongoDB ID for identification
+          id: schedule._id, // Use MongoDB _id as ID
         }));
-        setAvailabilityFields(fetchedSchedules.length > 0 ? fetchedSchedules : [{ startAt: '', endAt: '', day: 'Monday', id: Date.now() }]);
+        setAvailabilityFields(fetchedSchedules.length > 0 ? fetchedSchedules : [{ startAt: '', endAt: '', day: 'Monday', id: null }]);
       } catch (error) {
         console.error('Error fetching schedules:', error);
       }
     };
-
     fetchSchedules();
   }, []);
 
+  // Handle adding a new field (for new schedule)
   const handleAddField = () => {
     setAvailabilityFields([
       ...availabilityFields,
-      { startAt: '', endAt: '', day: 'Monday', id: Date.now() },
+      { startAt: '', endAt: '', day: 'Monday', id: null },
     ]);
   };
 
-  const handleRemoveField = (id) => {
-    const updatedFields = availabilityFields.filter(field => field.id !== id);
-    setAvailabilityFields(updatedFields);
-  };
-
+  // Handle changes in form fields
   const handleChange = (id, event) => {
-    const newAvailabilityFields = availabilityFields.map((field) => {
-      if (field.id === id) {
+    const updatedFields = availabilityFields.map((field) => {
+      if (field.id === id || field.id === null) {
         return { ...field, [event.target.name]: event.target.value };
       }
       return field;
     });
-    setAvailabilityFields(newAvailabilityFields);
+    setAvailabilityFields(updatedFields);
   };
 
+  // Handle deleting a schedule
+  const handleDeleteSchedule = async (id) => {
+    if (window.confirm("Are you sure you want to delete this schedule?")) {
+      try {
+        const response = await axios.delete(`http://localhost:8000/api/v1/tutor/delete-schedule/${id}`);
+        if (response.status === 200) {
+          setAvailabilityFields(availabilityFields.filter(field => field.id !== id));
+          alert("Schedule deleted successfully");
+        }
+      } catch (error) {
+        console.error("Error deleting schedule:", error);
+        alert("Failed to delete schedule");
+      }
+    }
+  };
+
+  // Handle form submission to save (either add or update)
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Send the schedule data to the API
       await Promise.all(
         availabilityFields.map(async (field) => {
           if (field.startAt && field.endAt) {
-            const response = await axios.post('http://localhost:8000/api/v1/tutor/add-schedule', {
-              startAt: field.startAt,
-              endAt: field.endAt,
-              day: field.day,
-            });
-
-            // Check response status
-            if (response.status !== 200) {
-              throw new Error(response.data.message || 'Error occurred while saving schedule');
+            if (field.id) {
+              // Update existing schedule
+              const response = await axios.put(`http://localhost:8000/api/v1/tutor/update-schedule/${field.id}`, {
+                startAt: field.startAt,
+                endAt: field.endAt,
+                day: field.day,
+              });
+              if (response.status !== 200) {
+                throw new Error("Error occurred while updating schedule");
+              }
+            } else {
+              // Add new schedule
+              const response = await axios.post('http://localhost:8000/api/v1/tutor/add-schedule', {
+                startAt: field.startAt,
+                endAt: field.endAt,
+                day: field.day,
+              });
+              if (response.status === 200) {
+                // Update state to reflect newly added schedule
+                setAvailabilityFields(prevFields =>
+                  prevFields.map(f => (f === field ? { ...f, id: response.data._id } : f))
+                );
+              } else {
+                throw new Error("Error occurred while saving schedule");
+              }
             }
           }
         })
       );
-
-      alert('Schedules saved successfully');
-      // Optionally, fetch the schedules again to refresh the list
-      // await fetchSchedules(); // Uncomment if you want to refresh after save
+      alert("Schedules saved successfully");
     } catch (error) {
-      console.error('Error saving schedules:', error);
-      alert('Failed to save schedules: ' + (error.response ? error.response.data.message : error.message));
+      console.error("Error saving schedules:", error);
+      alert("Failed to save schedules");
     }
   };
-
 
   return (
     <>
@@ -99,10 +123,10 @@ const AddSchedule = () => {
             <Col className='m-4 m-md-0'>
               <h1 className="text-start my-4">Availability Schedule:</h1>
               <Form onSubmit={handleSubmit}>
-                {availabilityFields.map((field) => (
-                  <Row key={field.id} className="mb-3">
+                {availabilityFields.map((field, index) => (
+                  <Row key={index} className="mb-3">
                     <Col md={4}>
-                      <Form.Group controlId={`startAt_${field.id}`}>
+                      <Form.Group controlId={`startAt_${index}`}>
                         <Form.Label>Start At:</Form.Label>
                         <InputGroup>
                           <Form.Control
@@ -110,7 +134,7 @@ const AddSchedule = () => {
                             name="startAt"
                             className='p-4'
                             value={field.startAt}
-                            onChange={(e) => handleChange(field.id, e)}
+                            onChange={(e) => handleChange(field.id || index, e)}
                             required
                           />
                           <InputGroup.Text>
@@ -120,7 +144,7 @@ const AddSchedule = () => {
                       </Form.Group>
                     </Col>
                     <Col md={4}>
-                      <Form.Group controlId={`endAt_${field.id}`}>
+                      <Form.Group controlId={`endAt_${index}`}>
                         <Form.Label>End At:</Form.Label>
                         <InputGroup>
                           <Form.Control
@@ -128,7 +152,7 @@ const AddSchedule = () => {
                             name="endAt"
                             className='p-4'
                             value={field.endAt}
-                            onChange={(e) => handleChange(field.id, e)}
+                            onChange={(e) => handleChange(field.id || index, e)}
                             required
                           />
                           <InputGroup.Text>
@@ -138,12 +162,12 @@ const AddSchedule = () => {
                       </Form.Group>
                     </Col>
                     <Col md={2}>
-                      <Form.Group controlId={`day_${field.id}`}>
+                      <Form.Group controlId={`day_${index}`}>
                         <Form.Label>Day:</Form.Label>
                         <Form.Select
                           name="day"
                           value={field.day}
-                          onChange={(e) => handleChange(field.id, e)}
+                          onChange={(e) => handleChange(field.id || index, e)}
                         >
                           <option value="Sunday">Sunday</option>
                           <option value="Monday">Monday</option>
@@ -155,29 +179,26 @@ const AddSchedule = () => {
                         </Form.Select>
                       </Form.Group>
                     </Col>
-                    <Col md={2} className="d-flex align-items-end">
-                      <Button
-                        variant="danger"
-                        className='p-4 mt-3 mt-md-0'
-                        onClick={() => handleRemoveField(field.id)}
-                      >
-                        Remove
-                      </Button>
+                    <Col md={2}>
+                      {field.id && (
+                        <Button
+                          variant="danger"
+                          className='p-4 mt-3 mt-md-0'
+                          onClick={() => handleDeleteSchedule(field.id)}
+                        >
+                          Remove
+                        </Button>
+                      )}
                     </Col>
                   </Row>
                 ))}
-                <Button variant="success" className='p-4' onClick={handleAddField}>
-                  Add Day
+                <Button variant="primary" className="mt-3" type="submit">
+                  Save Schedule
                 </Button>
-                <div className="text-end mt-3">
-                  <Button className='p-4' variant="secondary" type="button">
-                    Cancel
-                  </Button>
-                  <Button variant="primary" type="submit" className="ms-2 p-4">
-                    Save
-                  </Button>
-                </div>
               </Form>
+              <Button variant="secondary" className="mt-3" onClick={handleAddField}>
+                Add Another Schedule
+              </Button>
             </Col>
           </Row>
         </Col>
