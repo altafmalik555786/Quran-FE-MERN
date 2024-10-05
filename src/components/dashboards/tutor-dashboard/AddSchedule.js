@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import TutorHeader from '../../sharedComponents/TutorHeader';
 import TutorSidebar from '../../sharedComponents/TutorSidebar';
+import { jwtDecode } from 'jwt-decode'; // Corrected import
 
 const AddSchedule = () => {
   const [availabilityFields, setAvailabilityFields] = useState([
@@ -17,10 +18,14 @@ const AddSchedule = () => {
   ]);
 
   // Fetch schedules on component mount
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const tutorId = decodedToken.id; // Get tutorId from the token
+
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/tutor/get-schedule');
+        const response = await axios.get(`http://localhost:8000/api/v1/tutor/${tutorId}/get-schedules`);
         const fetchedSchedules = response.data.map(schedule => ({
           ...schedule,
           id: schedule._id, // Use MongoDB _id as ID
@@ -31,7 +36,7 @@ const AddSchedule = () => {
       }
     };
     fetchSchedules();
-  }, []);
+  }, [tutorId]); // Added tutorId as a dependency
 
   // Handle adding a new field (for new schedule)
   const handleAddField = () => {
@@ -86,8 +91,8 @@ const AddSchedule = () => {
                 throw new Error("Error occurred while updating schedule");
               }
             } else {
-              // Add new schedule
-              const response = await axios.post('http://localhost:8000/api/v1/tutor/add-schedule', {
+              // Add new schedule (corrected to include tutorId)
+              const response = await axios.post(`http://localhost:8000/api/v1/tutor/${tutorId}/add-schedule`, {
                 startAt: field.startAt,
                 endAt: field.endAt,
                 day: field.day,
@@ -95,7 +100,7 @@ const AddSchedule = () => {
               if (response.status === 200) {
                 // Update state to reflect newly added schedule
                 setAvailabilityFields(prevFields =>
-                  prevFields.map(f => (f === field ? { ...f, id: response.data._id } : f))
+                  prevFields.map(f => (f === field ? { ...f, id: response.data.newSchedule._id } : f))
                 );
               } else {
                 throw new Error("Error occurred while saving schedule");
@@ -179,7 +184,7 @@ const AddSchedule = () => {
                         </Form.Select>
                       </Form.Group>
                     </Col>
-                    <Col md={2}>
+                    <Col className='d-flex justify-content-end align-items-end' md={2}>
                       {field.id && (
                         <Button
                           variant="danger"
@@ -192,12 +197,12 @@ const AddSchedule = () => {
                     </Col>
                   </Row>
                 ))}
-                <Button variant="primary" className="mt-3" type="submit">
+                <Button variant="primary" className="mt-3 p-3" type="submit">
                   Save Schedule
                 </Button>
               </Form>
-              <Button variant="secondary" className="mt-3" onClick={handleAddField}>
-                Add Another Schedule
+              <Button variant="secondary" className="mt-3 p-3" onClick={handleAddField}>
+                Add Schedule
               </Button>
             </Col>
           </Row>
