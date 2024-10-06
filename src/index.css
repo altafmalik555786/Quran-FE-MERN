@@ -22,7 +22,7 @@ html {
   --fancy-color: #f48209;
 }
 
-.container{
+.container {
   width: 90%;
   padding-top: 50px;
   padding-bottom: 50px;
@@ -45,9 +45,11 @@ h5,
 h6 {
   color: #064909;
 }
-h3{
+
+h3 {
   color: var(--fancy-color);
 }
+
 /* p{
   color: rgba(0,0,0,.9);
 } */
@@ -55,6 +57,7 @@ h3{
 /* --------------------------------- responsive media queries  
                         -------------------------------------------------------*/
 @media (min-width: 1500px) {
+
   .container,
   .container-lg,
   .container-md,
@@ -66,6 +69,7 @@ h3{
 }
 
 @media (min-width: 1400px) {
+
   .container,
   .container-lg,
   .container-md,
@@ -74,4 +78,37 @@ h3{
   .container-xxl {
     max-width: 1400px;
   }
+}
+
+.custom-modal {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  margin: 0;
+  width: 100%;
+  max-width: 320px;
+  z-index: 1050;
+}
+
+.popup-messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-messages .message {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  max-width: 80%;
+}
+
+.popup-messages .message.sent {
+  background-color: #d4edda;
+  align-self: flex-end;
+  border-radius: 10px 0px 10px 10px;
+}
+
+.popup-messages .message.received {
+  background-color: #f8d7da;
+  align-self: flex-start;
+  border-radius: 0px 10px 10px 10px;
 }

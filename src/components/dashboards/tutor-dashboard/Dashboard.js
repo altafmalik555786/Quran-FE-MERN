@@ -9,7 +9,7 @@ import axios from 'axios';
 const Dashboard = () => {
   const [students, setStudents] = useState([]);
   console.log(students);
-  
+
   const [activeTab, setActiveTab] = useState("recommended");
   useEffect(() => {
     // Fetch the list of tutors when the component mounts
@@ -38,9 +38,9 @@ const Dashboard = () => {
         <Col md={4}>
           <div className="d-flex border-bottom mb-3 py-3 gap-2 align-items-center">
             <MdMessage size={12} color="#28a745" />
-            <p className="fs-5 text-secondary m-0">Current Tutors:</p>
+            <p className="fs-5 text-secondary m-0">Current Students:</p>
           </div>
-          <p className="mb-3">You have not hired anyone yet</p>
+          <p className="mb-3">Nobody has hired you yet</p>
           <Link to="/findtutors" className="btn tutor-btn" variant="success">
             Find Tutor
           </Link>
@@ -79,20 +79,20 @@ const Dashboard = () => {
                       <Row>
                         {/* Tutor Avatar */}
                         <Col lg={2}>
-                        {tutor.image ? (
-                                            <img
-                                                src={tutor.image}
-                                                alt="Profile"
-                                                style={{
-                                                    width: "80px",
-                                                    height: "80px",
-                                                    borderRadius: "50%", // For rounded-circle effect
-                                                    // Ensures the image fits within the circle without distortion
-                                                }}
-                                            />
-                                        ) : (
-                                            <p>No profile image available</p>
-                                        )}
+                          {tutor.image ? (
+                            <img
+                              src={tutor.image}
+                              alt="Profile"
+                              style={{
+                                width: "80px",
+                                height: "80px",
+                                borderRadius: "50%", // For rounded-circle effect
+                                // Ensures the image fits within the circle without distortion
+                              }}
+                            />
+                          ) : (
+                            <p>No profile image available</p>
+                          )}
                         </Col>
 
                         {/* Tutor Information */}
