@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Badge } from "react-bootstrap";
 import { MdMessage } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { FaRegCommentDots, FaStar,FaEyeSlash } from 'react-icons/fa';
+import { FaRegCommentDots, FaStar, FaEyeSlash } from 'react-icons/fa';
 import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
+
 
 const Dashboard = () => {
   const [tutors, setTutors] = useState([]);
@@ -15,6 +17,8 @@ const Dashboard = () => {
     const fetchTutors = async () => {
       try {
         const response = await axios.get("http://localhost:8000/api/v1/tutor/list"); // Assuming the backend API is available at /api/tutors
+        console.log('tutor list data with id', response);
+
         const sortedTutors = response.data.tutors
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by createdAt in descending order
           .slice(0, 5); // Get the first 6 tutors
@@ -130,12 +134,31 @@ const Dashboard = () => {
 
                           <Button
                             className="invite2teach mt-2"
-                            tutor_id={tutor.id}
+                            tutor_id={tutor._id}
                             variant="success"
                             type="button"
+                            onClick={async () => {
+                              try {
+                                const studentId = "your_student_id"; // Replace with the actual student ID
+
+                                const response = await axios.post(
+                                  "http://localhost:8000/api/v1/send",
+                                  { tutorId: tutor._id, studentId } // Send both tutor ID and student ID in the request body
+                                );
+
+                                alert(response.data.message);
+                              } catch (error) {
+                                alert('Error sending invite');
+                                console.error('Invite error:', error.response?.data || error.message); // Improved error logging
+                              }
+                            }}
                           >
                             Invite to Teach
                           </Button>
+
+
+
+
                         </Col>
 
                         {/* Action Buttons */}
