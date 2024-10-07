@@ -4,6 +4,7 @@ import { MdMessage } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaRegCommentDots, FaStar, FaEyeSlash } from 'react-icons/fa';
 import axios from "axios";
+import ChatModal from "../../modals/ChatModal";
 
 const Dashboard = () => {
   const [tutors, setTutors] = useState([]);
@@ -18,7 +19,7 @@ const Dashboard = () => {
         const response = await axios.get("http://localhost:8000/api/v1/tutor/list");
         const sortedTutors = response.data.tutors
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .slice(0, 5);
+          
         setTutors(sortedTutors);
       } catch (error) {
         console.error("Error fetching tutors:", error);
@@ -47,6 +48,8 @@ const Dashboard = () => {
       alert('Error sending message'); // Show an error message if failed
     }
   };
+  const handleClose = () => setShowModal(false);
+  
 
   return (
     <>
@@ -92,7 +95,7 @@ const Dashboard = () => {
 
           <Row className="px-4 py-3">
             {activeTab === "recommended" && (
-              <div>
+              <div className="student-list">
                 {tutors.length > 0 ? (
                   tutors.map((tutor) => (
                     <div key={tutor.id} className="sugst-box border p-3 mb-3">
@@ -182,56 +185,10 @@ const Dashboard = () => {
           </Row>
         </Col>
       </Row>
+      
+      
+      <ChatModal selectedTutor={selectedTutor} showModal={showModal} handleClose={handleClose} />
 
-      {/* Chat Modal */}
-      <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        dialogClassName="custom-modal"
-        className="chatbox_253243 popup-box chat-popup show"
-        style={{ right: '10px' }}
-      >
-        <div className="popup-head d-flex justify-content-between align-items-center p-2">
-          <div className="popup-head-left d-flex align-items-center">
-            <img
-              src={selectedTutor?.avatar || "https://images.unsplash.com/photo-1576764402988-7143f9cca90a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80"}
-              alt="Tutor Avatar"
-              style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }}
-            />
-            <span>{selectedTutor?.name}</span>
-          </div>
-          <div className="popup-head-right d-flex align-items-center">
-            <a className="ico-minimize minimize-chatbox fs-3" href="#." title="Minimize">
-              <FaRegCommentDots />
-            </a>
-            <a className="ico-close close-chatbox ms-3 fs-3" href="#." title="Close" onClick={() => setShowModal(false)}>
-              &times; {/* Close icon */}
-            </a>
-          </div>
-        </div>
-
-        <Modal.Body className="popup-body border mx-2 mb-2" style={{ border: '1px solid #ccc', borderTop: 'none' }}>
-          <div className="popup-messages d-flex flex-column" style={{ maxHeight: '300px', overflowY: 'auto', padding: '10px' }}>
-            {/* Messages would be displayed here */}
-            <div className="message sent">Hello! How are you?</div>
-            <div className="message received">I'm good, thanks! How about you?</div>
-            {/* Add more messages dynamically as needed */}
-          </div>
-          <div className="sendbar send-message d-flex justify-content-between align-items-center mt-2">
-            <Form.Group className="mb-0 w-100 me-2">
-              <Form.Control
-                type="text"
-                placeholder="Type a message..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-            </Form.Group>
-            <Button variant="success" onClick={handleSendMessage}>
-              Send
-            </Button>
-          </div>
-        </Modal.Body>
-      </Modal>
 
     </>
   );

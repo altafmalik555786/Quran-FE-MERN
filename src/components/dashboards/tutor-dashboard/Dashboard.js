@@ -5,8 +5,19 @@ import { Row, Col, Button, Badge } from "react-bootstrap";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaRegCommentDots, FaStar } from 'react-icons/fa';
 import axios from 'axios';
+import TutorChatModal from '../../modals/TutorChatModal';
 
 const Dashboard = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const handleChatClick = (student) => {
+    setSelectedStudent(student);
+    setShowModal(true);
+  };
+
+  const handleClose = () => setShowModal(false);
+
   const [students, setStudents] = useState([]);
   console.log(students);
 
@@ -18,7 +29,7 @@ const Dashboard = () => {
         const response = await axios.get("http://localhost:8000/api/v1/students-list"); // Assuming the backend API is available at /api/tutors
         const sortedTutors = response.data.students
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by createdAt in descending order
-          .slice(0, 5); // Get the first 6 tutors
+          
 
         setStudents(sortedTutors);
         console.log('tutor list data', response.data.tutors);
@@ -70,7 +81,7 @@ const Dashboard = () => {
           </div>
 
           {/* Conditional Content Based on Active Tab */}
-          <div className="py-3">
+          <div className="py-3 student-list">
             {activeTab === 'recommended' && (
               <div>
                 {students.length > 0 ? (
@@ -125,9 +136,9 @@ const Dashboard = () => {
 
                         {/* Chat Icon */}
                         <Col lg={2} className="d-flex align-items-center">
-                          <a href="#!" className="msgbtnIcon">
+                          <Button variant="link" onClick={() => handleChatClick(tutor)} className="msgbtnIcon">
                             <FaRegCommentDots size={24} />
-                          </a>
+                          </Button>
                         </Col>
                       </Row>
                     </div>
@@ -146,6 +157,15 @@ const Dashboard = () => {
             )}
           </div>
         </Col>
+        <div>
+          {selectedStudent && (
+            <TutorChatModal
+              selectedStudent={selectedStudent}
+              showModal={showModal}
+              handleClose={handleClose}
+            />
+          )}
+        </div>
       </Row>
     </>
   )
