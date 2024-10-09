@@ -1,8 +1,6 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import "./Header.css";
-import axios from "../API/axios";
 
 const Header = () => {
   const form = useRef();
@@ -28,35 +26,35 @@ const Header = () => {
     e.target.reset();
   };
 
-  const history = useNavigate();
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    course: "",
-    country: "",
-  });
+  // const history = useNavigate();
+  // const [user, setUser] = useState({
+  //   name: "",
+  //   email: "",
+  //   phone: "",
+  //   course: "",
+  //   country: "",
+  // });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setUser({
+  //     ...user,
+  //     [name]: value,
+  //   });
+  // };
 
-  const Signup = (e) => {
-    e.preventDefault();
-    const { name, email, phone, course, country } = user;
-    if (name && email && phone && course && country) {
-      axios.post("/signup", user).then((res) => {
-        alert(res.data.message);
-        history.push("/");
-      });
-    } else {
-      alert("Please fill all fields correctly!");
-    }
-  };
+  // const Signup = (e) => {
+  //   e.preventDefault();
+  //   const { name, email, phone, course, country } = user;
+  //   if (name && email && phone && course && country) {
+  //     axios.post("/signup", user).then((res) => {
+  //       alert(res.data.message);
+  //       history.push("/");
+  //     });
+  //   } else {
+  //     alert("Please fill all fields correctly!");
+  //   }
+  // };
   return (
     <>
       <header className="header-section">

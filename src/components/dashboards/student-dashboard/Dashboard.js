@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("recommended");
   const [showModal, setShowModal] = useState(false);
   const [selectedTutor, setSelectedTutor] = useState(null);
-  const [message, setMessage] = useState('');
+  // const [message, setMessage] = useState('');
 
   useEffect(() => {
     const fetchTutors = async () => {
@@ -33,21 +33,21 @@ const Dashboard = () => {
     setShowModal(true);
   };
 
-  const handleSendMessage = async () => {
-    try {
-      await axios.post('/api/messages', {
-        tutorId: selectedTutor._id,
-        message: message,
-        sender: 'student',
-      });
-      setMessage('');
-      setShowModal(false); // Close the modal after sending
-      alert('Message sent successfully!'); // Optional: Show a success message
-    } catch (error) {
-      console.error('Error sending message', error);
-      alert('Error sending message'); // Show an error message if failed
-    }
-  };
+  // const handleSendMessage = async () => {
+  //   try {
+  //     await axios.post('/api/messages', {
+  //       tutorId: selectedTutor._id,
+  //       message: message,
+  //       sender: 'student',
+  //     });
+  //     setMessage('');
+  //     setShowModal(false); // Close the modal after sending
+  //     alert('Message sent successfully!'); // Optional: Show a success message
+  //   } catch (error) {
+  //     console.error('Error sending message', error);
+  //     alert('Error sending message'); // Show an error message if failed
+  //   }
+  // };
   const handleClose = () => setShowModal(false);
   
 
